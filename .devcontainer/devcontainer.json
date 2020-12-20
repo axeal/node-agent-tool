@@ -10,5 +10,10 @@
 	"extensions": [
 		"ms-python.python"
 	],
-	"remoteUser": "vscode"
+	"workspaceFolder": "/workspace",
+	"workspaceMount": "source=node-agent-tool-workspace,target=/workspace,type=volume",
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
+	"runArgs": ["--net=host"]
 }
