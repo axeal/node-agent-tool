@@ -1,8 +1,11 @@
 import os
 import re
 
-import dockerd
 import yaml
+
+import dockerd
+import kube
+import rancher
 
 def parse_kube_config(etc_kubernetes_path):
     kube_config_path = '/host' + etc_kubernetes_path + '/ssl/kubecfg-kube-node.yaml'
@@ -43,6 +46,14 @@ def main():
         print('Error attempting to parse node kubeconfig file: {}'.format(err))
         exit(1)
     print(kube_config)
+
+    kube.test_k8s(kube_config)
+
+    client = rancher.Client(url=server+'/v3',token='token-lnghs:f7sbnxc5956krqg24hx6j5rvb8q6zszldw7gt9vx4j5dh7l6pd4xlh',verify=False)
+
+    token = client.by_id_cluster_registration_token('c-4xcmb'+':system')
+
+    print(token['insecureCommand'])
 
 if __name__ == '__main__':
     main()
